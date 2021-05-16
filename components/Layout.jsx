@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import Navbar from "./Navbar";
-import Notify from "./Notify";
 import { injectStyle } from "react-toastify/dist/inject-style";
 
 const Layout = ({ children }) => {
@@ -11,7 +10,6 @@ const Layout = ({ children }) => {
   return (
     <>
       <Navbar />
-      {/* <Notify /> */}
       {children}
     </>
   );

@@ -4,18 +4,16 @@
 .navbar {
   max-width: 800px;
   display: flex;
-  z-index: 2;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   margin: 3vh auto 0;
   border-radius: 0.5rem;
-  position: sticky;
   top: 0;
   background-color: white;
   overflow: visible;
-  /* overflow-y: hidden; */
+  position: relative;
 }
 
 .navbar-title {

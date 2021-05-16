@@ -129,19 +129,21 @@ const CreatePostModal = ({ modalIsOpen, closeModal, setIsOpen }) => {
           </form>
           {(caption !== "" || image !== null) && (
             <div className="post-preview">
-              <img
-                src={image !== null && URL.createObjectURL(image)}
-                alt={image !== null && URL.createObjectURL(image)}
-              />
+              <div>
+                <img
+                  src={image !== null && URL.createObjectURL(image)}
+                  alt={image !== null && URL.createObjectURL(image)}
+                />
+                {image !== null && (
+                  <div className="image-close">
+                    <i
+                      onClick={() => setImage(null)}
+                      className="fas fa-times"
+                    ></i>
+                  </div>
+                )}
+              </div>
               <p>{caption}</p>
-              {image !== null && (
-                <div className="image-close">
-                  <i
-                    onClick={() => setImage(null)}
-                    className="fas fa-times"
-                  ></i>
-                </div>
-              )}
             </div>
           )}
         </div>

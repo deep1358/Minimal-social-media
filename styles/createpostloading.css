@@ -15,7 +15,7 @@
   border-radius: 50%;
   background-color: white;
   position: absolute;
-  top: 42%;
+  top: 40%;
   left: 46.5%;
   transform: translate(-50%, -50%);
 }
@@ -26,4 +26,5 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Berkshire Swash", serif;
+  letter-spacing: 2px;
 }
