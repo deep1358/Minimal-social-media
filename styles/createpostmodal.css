@@ -1,0 +1,108 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 10px;
+}
+.modal > h1 {
+  font-family: "Berkshire Swash", serif;
+  letter-spacing: 2px;
+}
+.close {
+  position: absolute;
+  right: 2%;
+  top: 2%;
+}
+.modal > form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+}
+.modal > form > input {
+  border: none;
+  width: 100%;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.caption-input {
+  border: 1px solid rgb(197, 191, 191);
+  width: 100%;
+  padding: 0.5rem;
+  outline: none;
+}
+.modal > form > button {
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin-top: 2vh;
+  border-radius: 0.5rem;
+}
+.maxlength-indicator {
+  position: relative;
+  font-size: 11px;
+  right: 0;
+  bottom: 0;
+  color: grey;
+  text-align: right;
+}
+.post-preview {
+  position: relative;
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.post-preview > img {
+  width: 500px;
+}
+.post-preview > p {
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+.image-close {
+  color: white;
+  background-color: black;
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -3%;
+  right: -10%;
+}
+@media (max-width: 600px) {
+  .modal {
+    width: 80vw;
+  }
+  .post-preview > img {
+    width: 100%;
+  }
+  .image-close {
+    right: -2%;
+  }
+}
+
+@media (max-width: 450px) {
+  .modal > h1 {
+    font-size: 25px;
+  }
+  .modal {
+    margin: 0;
+  }
+  .modal > form {
+    padding: 1rem 0;
+  }
+  .image-close > .fas {
+    font-size: 0.9em !important;
+  }
+}

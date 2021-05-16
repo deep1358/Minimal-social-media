@@ -2,14 +2,20 @@
 
 /* Navbar */
 .navbar {
+  max-width: 800px;
   display: flex;
-  z-index: 10;
+  z-index: 2;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  margin-top: 3vh;
+  margin: 3vh auto 0;
   border-radius: 0.5rem;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  overflow: visible;
+  /* overflow-y: hidden; */
 }
 
 .navbar-title {
@@ -79,4 +85,20 @@
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
+}
+@media (max-width: 400px) {
+  .dropbtn {
+    padding: 10px;
+  }
+  .dropdown-content {
+    min-width: 100px;
+  }
+  .dropdown-content div {
+    padding: 4px 0;
+  }
+}
+@media (max-width: 350px) {
+  .navbar-title {
+    font-size: 26px;
+  }
 }

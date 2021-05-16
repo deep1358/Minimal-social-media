@@ -1,0 +1,109 @@
+.comment-modal {
+  max-height: 60vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.comment-modal > h1 {
+  font-family: "Berkshire Swash", serif;
+  text-align: center;
+  letter-spacing: 1px;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 0.5rem;
+}
+.comment-body {
+  max-height: 55vh;
+  overflow: scroll;
+  min-width: 440px;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+.comment > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment > div:nth-child(2) > p {
+  overflow-wrap: anywhere;
+  max-width: 400px;
+  margin: 2px 0 0 38px;
+}
+.comment > div:first-child > p {
+  margin: 0 5px;
+}
+
+.comment-avatar {
+  width: 30px !important;
+  height: 30px !important;
+}
+.comment-close {
+  top: 2%;
+}
+.comment-body::-webkit-scrollbar {
+  width: 11px;
+}
+.comment-body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+.comment-body::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+.comment-body::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG);
+  border-radius: 6px;
+  border: 3px solid var(--scrollbarBG);
+}
+@media (max-width: 600px) {
+  .comment-modal {
+    width: 80vw;
+    min-width: none;
+    margin: 10px !important;
+  }
+}
+@media (max-width: 450px) {
+  .comment-modal > h1 {
+    padding: 0.5rem 0;
+    font-size: 25px;
+  }
+  .comment-close {
+    font-size: 1.3em;
+  }
+  .comment {
+    margin: 0;
+    font-size: 13px;
+  }
+  .comment-avatar {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .comment > div:nth-child(2) > p {
+    max-width: none;
+    margin: 0px 0 0 25px;
+  }
+}
+@media (max-width: 350px) {
+  .comment-modal > h1 {
+    font-size: 20px;
+  }
+  .comment-modal {
+    max-height: 50vh;
+  }
+}
+@media (max-width: 300px) {
+  .comment-modal {
+    width: 90vw;
+    overflow: hidden;
+  }
+}

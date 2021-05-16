@@ -1,10 +1,30 @@
 html,
 body {
   padding: 0;
-  margin: 0 auto;
-  max-width: 800px;
+  margin: 0;
+  /* margin: 0 auto; */
+  /* max-width: 800px; */
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  scroll-behavior: smooth;
+  --scrollbarBG: white;
+  --thumbBG: #90a4ae;
+}
+
+body::-webkit-scrollbar {
+  width: 11px;
+}
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+body::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG);
+  border-radius: 6px;
+  border: 3px solid var(--scrollbarBG);
 }
 
 a {
@@ -24,4 +44,17 @@ a {
   border-radius: 50%;
   padding: 0;
 }
+
+@media (max-width: 400px) {
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 @import url("./navbar.css");
+@import url("./createpostmodal.css");
+@import url("./post.css");
+@import url("./createpostloading.css");
+@import url("./postloading.css");
+@import url("./commentmodal.css");

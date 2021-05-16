@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   Auth,
   facebookProvider,
@@ -6,6 +6,9 @@ import {
   googleProvider,
 } from "../firebase";
 import { DataContext } from "../store/GlobalState";
+import CreatePostModal from "../components/CreatePostModal";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const {
@@ -15,8 +18,6 @@ const Navbar = () => {
 
   const loginWithGoogle = () => {
     Auth.signInWithPopup(googleProvider).then(function (result) {
-      var token = result.credential.accessToken;
-
       var user = result.user;
       dispatch({
         type: "AUTH",
@@ -24,13 +25,33 @@ const Navbar = () => {
           name: user.displayName,
           email: user.email,
           avatar: user.photoURL,
+          id: user.uid,
         },
       });
+      toast.success("Logged in succesfully as " + user.displayName);
     });
   };
 
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return (
-    <div className="navbar">
+    <motion.div
+      initial={{ opacity: 0, y: "-100%" }}
+      animate={{ opacity: 1, y: "0%", transition: { delay: ".2" } }}
+      className="navbar"
+    >
+      <CreatePostModal
+        setIsOpen={setIsOpen}
+        closeModal={closeModal}
+        modalIsOpen={modalIsOpen}
+      />
       <h1 className="navbar-title">Social Media</h1>
 
       {Object.keys(auth).length !== 0 ? (
@@ -38,8 +59,16 @@ const Navbar = () => {
           <img src={auth.avatar} className="dropbtn avatar" />
 
           <div className="dropdown-content">
-            <div onClick={() => {}}>Create Post</div>
-            <div onClick={() => Auth.signOut()}>Logout</div>
+            <div onClick={openModal}>Create Post</div>
+            <div
+              onClick={() => {
+                Auth.signOut();
+                dispatch({ type: "AUTH", payload: {} });
+                toast.success("Logged out succesfully!!");
+              }}
+            >
+              Logout
+            </div>
           </div>
         </div>
       ) : (
@@ -53,7 +82,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

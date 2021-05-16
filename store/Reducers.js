@@ -12,10 +12,10 @@ const reducers = (state, action) => {
         ...state,
         auth: action.payload,
       };
-    case ACTIONS.ADD_POST:
+    case ACTIONS.ADD_POSTS:
       return {
         ...state,
-        post: action.payload,
+        posts: action.payload,
       };
     default:
       return state;
