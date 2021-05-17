@@ -37,7 +37,15 @@
   padding-left: 1vw;
   display: flex;
   align-items: center;
-  /* justify-content: center; */
+  justify-content: space-between;
+}
+.post-icons > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.post-icons > div:nth-child(2) > i {
+  font-size: 1.4em;
 }
 .icon {
   display: flex;
@@ -77,10 +85,38 @@ i {
   cursor: pointer;
   color: rgb(52, 126, 196);
 }
-@media (max-width: 400px) {
+.delete-modal {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.delete-modal > .buttons {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin: 5px 0 0;
+}
+
+.buttons > button {
+  padding: 8px 5px;
+  margin: 0 10px;
+  min-width: 50px;
+  background-color: rgb(199, 199, 199);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+@media (max-width: 570px) {
   .post {
     max-width: 90vw;
   }
+}
+@media (max-width: 400px) {
   .post > img {
     max-height: 300px;
   }
@@ -104,5 +140,11 @@ i {
   }
   .icon {
     margin-right: 10px;
+  }
+  .post-icons > div:nth-child(2) > i {
+    font-size: 1.1em !important;
+  }
+  .delete-modal > h3 {
+    font-size: 15px;
   }
 }

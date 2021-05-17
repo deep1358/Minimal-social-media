@@ -2,10 +2,12 @@ import { motion } from "framer-motion";
 import "aos/dist/aos.css";
 import { useContext, useEffect, useState } from "react";
 import Aos from "aos";
-import db, { serverTimestamp } from "../firebase";
+import db, { serverTimestamp, storage } from "../firebase";
 import { DataContext } from "../store/GlobalState";
 import CommentsModal from "./CommentsModal";
 import { toast } from "react-toastify";
+import Modal from "react-modal";
+import DeleteLoading from "./DeleteLoading";
 
 const Post = ({ post }) => {
   useEffect(() => {
@@ -13,8 +15,20 @@ const Post = ({ post }) => {
     Aos.refresh();
   }, []);
 
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+
   const {
-    state: { auth },
+    state: { auth, posts },
+    dispatch,
   } = useContext(DataContext);
 
   const [comment, setComment] = useState("");
@@ -22,15 +36,22 @@ const Post = ({ post }) => {
   const [isComment, setIsComment] = useState(false);
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState([]);
-  const [likeFlag, setLikeFlag] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [modal1IsOpen, setModal1IsOpen] = useState(false);
 
   function openModal() {
     setIsOpen(true);
   }
   function closeModal() {
     setIsOpen(false);
+  }
+  function openModal1() {
+    setModal1IsOpen(true);
+  }
+  function closeModal1() {
+    setModal1IsOpen(false);
   }
 
   useEffect(() => {
@@ -86,7 +107,6 @@ const Post = ({ post }) => {
         likes.map((like) => {
           if (like.data.uid === auth.id) {
             setIsLiked(true);
-            setLikeFlag(true);
           }
         });
       }
@@ -122,20 +142,38 @@ const Post = ({ post }) => {
     if (!auth.id) {
       return toast.error("Must be loggged in to like");
     }
+
     setIsLiked(!isLiked);
-    if (isLiked === false && !likeFlag) {
+
+    if (isLiked === false) {
       db.collection("posts")
         .doc(post.id)
         .collection("likes")
         .add({ uid: auth.id });
     } else {
+      const like = likes.filter((like) => like.data.uid === auth.id);
       db.collection("posts")
         .doc(post.id)
         .collection("likes")
-        .doc(auth.id)
+        .doc(like[0].id)
         .delete();
-      // .then(() => setLikeFlag(false));
     }
+  };
+
+  const handleDelete = () => {
+    const Posts = posts.filter((item) => item.id !== post.id);
+
+    db.collection("posts")
+      .doc(post.id)
+      .delete()
+      .then(() => {
+        var deleteRef = storage.ref().child(`image/${post.data.imageId}`);
+        deleteRef.delete().then(() => {
+          dispatch({ type: "ADD_POSTS", payload: Posts });
+          closeModal1();
+          return toast.success("Deleted Succesfully!!");
+        });
+      });
   };
 
   return (
@@ -146,6 +184,32 @@ const Post = ({ post }) => {
         modalIsOpen={modalIsOpen}
         comments={comments}
       />
+      <Modal
+        ariaHideApp={false}
+        isOpen={modal1IsOpen}
+        onRequestClose={closeModal1}
+        style={customStyles}
+      >
+        {loading && <DeleteLoading />}
+        <div className="delete-modal">
+          <h3 style={{ marginTop: "-10px" }}>
+            Do you want to delete the post?
+          </h3>
+          <div className="buttons">
+            <motion.button whileTap={{ scale: 0.9 }} onClick={handleDelete}>
+              Yes
+            </motion.button>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                closeModal1();
+              }}
+            >
+              No
+            </motion.button>
+          </div>
+        </div>
+      </Modal>
       <div data-aos="zoom-in" className="post">
         <div className="post-header">
           <div className="post-header-left">
@@ -154,41 +218,56 @@ const Post = ({ post }) => {
           </div>
         </div>
 
-        <img src={post.data.imageUrl} alt={post.data.imageUrl} />
+        <img src={post.data.imageUrl} alt={post.data.caption} />
 
         <div className="post-icons">
-          <div className="icon">
-            <motion.i
-              whileHover={{
-                scale: 1.1,
-              }}
-              whileTap={{
-                scale: 1.0,
-              }}
-              onClick={postLike}
-              className={
-                isLiked ? "fa-2x fas fa-thumbs-up" : "fa-2x far fa-thumbs-up"
-              }
-            ></motion.i>
-            <p style={{ marginLeft: "5px" }}>{likes.length}</p>
-          </div>
+          <div>
+            <div className="icon">
+              <motion.i
+                whileHover={{
+                  scale: 1.1,
+                }}
+                whileTap={{
+                  scale: 1.0,
+                }}
+                onClick={postLike}
+                className={
+                  isLiked ? "fa-2x fas fa-thumbs-up" : "fa-2x far fa-thumbs-up"
+                }
+              ></motion.i>
+              <p style={{ marginLeft: "5px" }}>{likes.length}</p>
+            </div>
 
-          <div className="icon">
-            <motion.i
-              onClick={() => {
-                comments.length > 0 && openModal();
-              }}
-              whileHover={{
-                scale: 1.1,
-              }}
-              whileTap={{
-                scale: 1.0,
-              }}
-              className={
-                isComment ? "fas fa-2x fa-comment" : "far fa-2x fa-comment"
-              }
-            ></motion.i>
-            <p style={{ marginLeft: "5px" }}>{comments.length}</p>
+            <div className="icon">
+              <motion.i
+                onClick={() => {
+                  comments.length > 0 && openModal();
+                }}
+                whileHover={{
+                  scale: 1.1,
+                }}
+                whileTap={{
+                  scale: 1.0,
+                }}
+                className={
+                  isComment ? "fas fa-2x fa-comment" : "far fa-2x fa-comment"
+                }
+              ></motion.i>
+              <p style={{ marginLeft: "5px" }}>{comments.length}</p>
+            </div>
+          </div>
+          <div>
+            {auth?.id && auth.id === post.data.uid ? (
+              <motion.i
+                whileTap={{
+                  scale: 0.9,
+                }}
+                className="fas fa-trash"
+                onClick={() => openModal1()}
+              ></motion.i>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
 

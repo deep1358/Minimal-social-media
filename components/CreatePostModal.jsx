@@ -28,19 +28,21 @@ const CreatePostModal = ({ modalIsOpen, closeModal, setIsOpen }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (!caption || !image) {
       return toast.error("Every field must be filled");
     }
+    const id = uuidv4();
     setLoading(true);
-    var uploadTask = storage.ref().child(`image/${uuidv4()}`).put(image);
+    var uploadTask = storage.ref().child(`image/${id}`).put(image);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       },
       (error) => {
-        console.log(error);
+        toast.error(error);
       },
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
@@ -50,6 +52,7 @@ const CreatePostModal = ({ modalIsOpen, closeModal, setIsOpen }) => {
               uname: auth.name,
               uavatar: auth.avatar,
               imageUrl: downloadURL,
+              imageId: id,
               caption,
               createdAt: serverTimestamp(),
             })
@@ -73,7 +76,7 @@ const CreatePostModal = ({ modalIsOpen, closeModal, setIsOpen }) => {
               setIsOpen(false);
               setCaption("");
               setImage(null);
-              toast.success("Post Created succesfully!!!");
+              toast.success("Post Created successfully!!!");
             });
         });
       }
@@ -91,7 +94,7 @@ const CreatePostModal = ({ modalIsOpen, closeModal, setIsOpen }) => {
         {loading && <CreatePostLoading />}
         <div className="modal">
           <h1>Create Post</h1>
-          <form>
+          <form onSubmit={handleSubmit}>
             <input
               accept="image/*"
               type="file"
