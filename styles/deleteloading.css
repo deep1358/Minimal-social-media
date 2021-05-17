@@ -1,0 +1,30 @@
+.delete-loading {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  width: 300px;
+  height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.delete-ball {
+  width: 30px;
+  background-color: white;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.delete-loading > h1 {
+  color: white;
+  font-family: "Berkshire Swash", serif;
+  letter-spacing: 2px;
+}
+@media (max-width: 330px) {
+  .delete-loading {
+    width: 90vw;
+  }
+}

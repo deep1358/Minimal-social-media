@@ -23,6 +23,7 @@ const Post = ({ post }) => {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      overflow: "visible",
     },
   };
 
@@ -36,7 +37,7 @@ const Post = ({ post }) => {
   const [isComment, setIsComment] = useState(false);
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modal1IsOpen, setModal1IsOpen] = useState(false);
@@ -161,6 +162,7 @@ const Post = ({ post }) => {
   };
 
   const handleDelete = () => {
+    setLoading(true);
     const Posts = posts.filter((item) => item.id !== post.id);
 
     db.collection("posts")
@@ -170,6 +172,7 @@ const Post = ({ post }) => {
         var deleteRef = storage.ref().child(`image/${post.data.imageId}`);
         deleteRef.delete().then(() => {
           dispatch({ type: "ADD_POSTS", payload: Posts });
+          setLoading(false);
           closeModal1();
           return toast.success("Deleted Succesfully!!");
         });
