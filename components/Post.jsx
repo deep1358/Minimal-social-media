@@ -8,6 +8,7 @@ import CommentsModal from "./CommentsModal";
 import { toast } from "react-toastify";
 import Modal from "react-modal";
 import DeleteLoading from "./DeleteLoading";
+import Image from "next/image";
 
 const Post = ({ post }) => {
   useEffect(() => {
@@ -33,10 +34,13 @@ const Post = ({ post }) => {
   } = useContext(DataContext);
 
   const [comment, setComment] = useState("");
+
   const [isLiked, setIsLiked] = useState(false);
   const [isComment, setIsComment] = useState(false);
+
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -174,7 +178,7 @@ const Post = ({ post }) => {
           dispatch({ type: "ADD_POSTS", payload: Posts });
           setLoading(false);
           closeModal1();
-          return toast.success("Deleted Succesfully!!");
+          return toast.success("Deleted Successfully!!");
         });
       });
   };
@@ -216,12 +220,21 @@ const Post = ({ post }) => {
       <div data-aos="zoom-in" className="post">
         <div className="post-header">
           <div className="post-header-left">
-            <img src={post.data.uavatar} className="avatar post-avatar" />
+            <img
+              src={post.data.uavatar}
+              alt={post.data.uname}
+              className="avatar post-avatar"
+            />
             <h3>{post.data.uname}</h3>
           </div>
         </div>
 
-        <img src={post.data.imageUrl} alt={post.data.caption} />
+        <Image
+          src={post.data.imageUrl}
+          alt={post.data.caption}
+          width={550}
+          height={450}
+        />
 
         <div className="post-icons">
           <div>
@@ -256,9 +269,11 @@ const Post = ({ post }) => {
                   isComment ? "fas fa-2x fa-comment" : "far fa-2x fa-comment"
                 }
               ></motion.i>
+
               <p style={{ marginLeft: "5px" }}>{comments.length}</p>
             </div>
           </div>
+
           <div>
             {auth?.id && auth.id === post.data.uid ? (
               <motion.i

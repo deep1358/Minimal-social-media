@@ -50,7 +50,7 @@
   position: absolute;
   right: 0;
   background-color: #f1f1f1;
-  min-width: 160px;
+  min-width: 120px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   z-index: 1;
   cursor: pointer;

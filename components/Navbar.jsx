@@ -56,7 +56,7 @@ const Navbar = () => {
 
       {Object.keys(auth).length !== 0 ? (
         <div className="dropdown navbar-menu">
-          <img src={auth.avatar} className="dropbtn avatar" />
+          <img alt={auth.name} src={auth.avatar} className="dropbtn avatar" />
 
           <div className="dropdown-content">
             <div onClick={openModal}>Create Post</div>
@@ -76,8 +76,10 @@ const Navbar = () => {
           <button className="dropbtn">Sign In</button>
           <div className="dropdown-content">
             <div onClick={loginWithGoogle}>
-              <img src="https://cdn2.iconfinder.com/data/icons/social-icons-33/128/Google-128.png" />
-              Google
+              <img
+                alt="google logo"
+                src="https://cdn2.iconfinder.com/data/icons/social-icons-33/128/Google-128.png"
+              />
             </div>
           </div>
         </div>
