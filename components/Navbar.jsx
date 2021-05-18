@@ -28,7 +28,7 @@ const Navbar = () => {
           id: user.uid,
         },
       });
-      toast.success("Logged in succesfully as " + user.displayName);
+      toast.success("Logged in successfully as " + user.displayName);
     });
   };
 
@@ -64,7 +64,7 @@ const Navbar = () => {
               onClick={() => {
                 Auth.signOut();
                 dispatch({ type: "AUTH", payload: {} });
-                toast.success("Logged out succesfully!!");
+                toast.success("Logged out successfully!!");
               }}
             >
               Logout

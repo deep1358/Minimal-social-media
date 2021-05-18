@@ -145,7 +145,7 @@ const Post = ({ post }) => {
 
   const postLike = () => {
     if (!auth.id) {
-      return toast.error("Must be loggged in to like");
+      return toast.error("Must be logged in to like");
     }
 
     setIsLiked(!isLiked);
