@@ -17,19 +17,23 @@ const Navbar = () => {
   } = useContext(DataContext);
 
   const loginWithGoogle = () => {
-    Auth.signInWithPopup(googleProvider).then(function (result) {
-      var user = result.user;
-      dispatch({
-        type: "AUTH",
-        payload: {
-          name: user.displayName,
-          email: user.email,
-          avatar: user.photoURL,
-          id: user.uid,
-        },
+    try {
+      Auth.signInWithPopup(googleProvider).then(function (result) {
+        var user = result.user;
+        dispatch({
+          type: "AUTH",
+          payload: {
+            name: user.displayName,
+            email: user.email,
+            avatar: user.photoURL,
+            id: user.uid,
+          },
+        });
+        toast.success("Logged in successfully as " + user.displayName);
       });
-      toast.success("Logged in successfully as " + user.displayName);
-    });
+    } catch (err) {
+      toast.error(err);
+    }
   };
 
   const [modalIsOpen, setIsOpen] = useState(false);

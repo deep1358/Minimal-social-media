@@ -2,12 +2,11 @@ import Head from "next/head";
 import { useContext } from "react";
 import { DataContext } from "../store/GlobalState";
 import Post from "../components/Post";
-import PostLoading from "../components/PostLoading";
+import SkeletonElement from "../components/skeletons/SkeletonElement";
 
 export default function Home() {
   const {
     state: { posts },
-    dispatch,
   } = useContext(DataContext);
 
   return (
@@ -20,7 +19,7 @@ export default function Home() {
         {posts.length > 0 ? (
           posts.map((post) => <Post post={post} key={post.id} />)
         ) : (
-          <PostLoading />
+          <SkeletonElement />
         )}
       </div>
     </div>

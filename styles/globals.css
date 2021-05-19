@@ -39,8 +39,8 @@ a {
 }
 
 .avatar {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   padding: 0;
 }
@@ -59,3 +59,4 @@ a {
 @import url("./postloading.css");
 @import url("./deleteloading.css");
 @import url("./commentmodal.css");
+@import url("./skeleton.css");

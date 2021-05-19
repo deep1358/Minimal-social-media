@@ -33,6 +33,9 @@ const CreatePostModal = ({ modalIsOpen, closeModal, setIsOpen }) => {
     if (!caption || !image) {
       return toast.error("Every field must be filled");
     }
+    if (image.size >= 1024 * 1024 * 4) {
+      return toast.error("Maximum image size is 4MB");
+    }
     const id = uuidv4();
     setLoading(true);
     var uploadTask = storage.ref().child(`image/${id}`).put(image);
