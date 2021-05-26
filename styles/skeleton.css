@@ -9,6 +9,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  border-radius: 1rem;
 }
 .skeleton .avatar {
   width: 40px;
