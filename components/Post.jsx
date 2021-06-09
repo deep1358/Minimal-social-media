@@ -1,7 +1,5 @@
 import { motion } from "framer-motion";
-import "aos/dist/aos.css";
 import { useContext, useEffect, useState } from "react";
-import Aos from "aos";
 import db, { serverTimestamp, storage } from "../firebase";
 import { DataContext } from "../store/GlobalState";
 import CommentsModal from "./CommentsModal";
@@ -11,11 +9,6 @@ import DeleteLoading from "./DeleteLoading";
 import Image from "next/image";
 
 const Post = ({ post }) => {
-  useEffect(() => {
-    Aos.init();
-    Aos.refresh();
-  }, []);
-
   const customStyles = {
     content: {
       top: "50%",
@@ -217,7 +210,12 @@ const Post = ({ post }) => {
           </div>
         </div>
       </Modal>
-      <div data-aos="zoom-in" className="post">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="post"
+      >
         <div className="post-header">
           <div className="post-header-left">
             <img
@@ -310,7 +308,7 @@ const Post = ({ post }) => {
             post
           </motion.button>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };
