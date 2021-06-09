@@ -34,8 +34,8 @@ const CreatePostModal = ({ modalIsOpen, closeModal, setIsOpen }) => {
     if (!caption || !image) {
       return toast.error("Every field must be filled");
     }
-    if (image.size >= 1024 * 1024 * 5) {
-      return toast.error("Maximum image size is 5MB");
+    if (image.size >= 1024 * 1024 * 7) {
+      return toast.error("Maximum image size is 7MB");
     }
     const id = uuidv4();
 
