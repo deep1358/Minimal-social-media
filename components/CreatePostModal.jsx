@@ -6,6 +6,7 @@ import db, { storage, serverTimestamp } from "../firebase";
 import { DataContext } from "../store/GlobalState";
 import CreatePostLoading from "./CreatePostLoading";
 import { toast } from "react-toastify";
+import imageCompression from "browser-image-compression";
 
 const CreatePostModal = ({ modalIsOpen, closeModal, setIsOpen }) => {
   const customStyles = {
@@ -28,62 +29,76 @@ const CreatePostModal = ({ modalIsOpen, closeModal, setIsOpen }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!caption || !image) {
       return toast.error("Every field must be filled");
     }
-    if (image.size >= 1024 * 1024 * 4) {
-      return toast.error("Maximum image size is 4MB");
+    if (image.size >= 1024 * 1024 * 5) {
+      return toast.error("Maximum image size is 5MB");
     }
     const id = uuidv4();
-    setLoading(true);
-    var uploadTask = storage.ref().child(`image/${id}`).put(image);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      },
-      (error) => {
-        toast.error(error);
-      },
-      () => {
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          db.collection("posts")
-            .add({
-              uid: auth.id,
-              uname: auth.name,
-              uavatar: auth.avatar,
-              imageUrl: downloadURL,
-              imageId: id,
-              caption,
-              createdAt: serverTimestamp(),
-            })
-            .then((res) => {
-              dispatch({
-                type: "ADD_POSTS",
-                payload: {
-                  ...posts,
-                  id: res.id,
-                  data: {
-                    uid: auth.id,
-                    uname: auth.uname,
-                    uavatar: auth.avatar,
-                    imageUrl: downloadURL,
-                    caption,
-                    createdAt: serverTimestamp(),
+
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+    try {
+      const compressedImage = await imageCompression(image, options);
+
+      setLoading(true);
+
+      var uploadTask = storage.ref().child(`image/${id}`).put(compressedImage);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          toast.error(error);
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            db.collection("posts")
+              .add({
+                uid: auth.id,
+                uname: auth.name,
+                uavatar: auth.avatar,
+                imageUrl: downloadURL,
+                imageId: id,
+                caption,
+                createdAt: serverTimestamp(),
+              })
+              .then((res) => {
+                dispatch({
+                  type: "ADD_POSTS",
+                  payload: {
+                    ...posts,
+                    id: res.id,
+                    data: {
+                      uid: auth.id,
+                      uname: auth.uname,
+                      uavatar: auth.avatar,
+                      imageUrl: downloadURL,
+                      caption,
+                      createdAt: serverTimestamp(),
+                    },
                   },
-                },
+                });
+                setLoading(false);
+                setIsOpen(false);
+                setCaption("");
+                setImage(null);
+                toast.success("Post Created successfully!!!");
               });
-              setLoading(false);
-              setIsOpen(false);
-              setCaption("");
-              setImage(null);
-              toast.success("Post Created successfully!!!");
-            });
-        });
-      }
-    );
+          });
+        }
+      );
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
