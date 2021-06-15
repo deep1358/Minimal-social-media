@@ -4,13 +4,14 @@ import "firebase/firestore"
 import "firebase/storage"
 
 var firebaseConfig = {
-  apiKey: "AIzaSyB3c0R6rTH4e2umanhKW19rTn6615dREiM",
-  authDomain: "minimal-social-media.firebaseapp.com",
-  projectId: "minimal-social-media",
-  storageBucket: "minimal-social-media.appspot.com",
-  messagingSenderId: "864231971024",
-  appId: "1:864231971024:web:7c7007958cd3b063cb66d5",
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
 };
+
 
 var firebaseApp;
 
