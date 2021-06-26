@@ -149,8 +149,6 @@ const EditPostModal = ({ modalIsOpen, closeModal, setIsOpen, post }) => {
     }
   };
 
-  // console.log(image);
-
   return (
     <>
       <Modal
@@ -183,7 +181,7 @@ const EditPostModal = ({ modalIsOpen, closeModal, setIsOpen, post }) => {
                 type="text"
                 name="caption"
                 placeholder="Enter Caption"
-                maxLength="60"
+                maxLength={60}
               />
               <span className="maxlength-indicator">
                 max-characters: {60 - Number(caption.length)}

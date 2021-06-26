@@ -133,7 +133,7 @@ const CreatePostModal = ({ modalIsOpen, closeModal, setIsOpen }) => {
                 type="text"
                 name="caption"
                 placeholder="Enter Caption"
-                maxLength="60"
+                maxLength={60}
               />
               <span className="maxlength-indicator">
                 max-characters: {60 - Number(caption.length)}
