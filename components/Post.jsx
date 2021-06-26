@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Modal from "react-modal";
 import DeleteLoading from "./DeleteLoading";
 import Image from "next/image";
+import EditPostModal from "./EditPostModal";
 
 const Post = ({ post }) => {
   const customStyles = {
@@ -38,6 +39,7 @@ const Post = ({ post }) => {
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modal1IsOpen, setModal1IsOpen] = useState(false);
+  const [modal2IsOpen, setModal2IsOpen] = useState(false);
 
   function openModal() {
     setIsOpen(true);
@@ -50,6 +52,12 @@ const Post = ({ post }) => {
   }
   function closeModal1() {
     setModal1IsOpen(false);
+  }
+  function openModal2() {
+    setModal2IsOpen(true);
+  }
+  function closeModal2() {
+    setModal2IsOpen(false);
   }
 
   useEffect(() => {
@@ -184,6 +192,12 @@ const Post = ({ post }) => {
         modalIsOpen={modalIsOpen}
         comments={comments}
       />
+      <EditPostModal
+        setIsOpen={setModal2IsOpen}
+        closeModal={closeModal2}
+        modalIsOpen={modal2IsOpen}
+        post={post}
+      />
       <Modal
         ariaHideApp={false}
         isOpen={modal1IsOpen}
@@ -274,13 +288,23 @@ const Post = ({ post }) => {
 
           <div>
             {auth?.id && auth.id === post.data.uid ? (
-              <motion.i
-                whileTap={{
-                  scale: 0.9,
-                }}
-                className="fas fa-trash"
-                onClick={() => openModal1()}
-              ></motion.i>
+              <>
+                <motion.i
+                  whileTap={{
+                    scale: 0.9,
+                  }}
+                  className="fas fa-trash"
+                  onClick={() => openModal1()}
+                ></motion.i>
+                <motion.i
+                  whileTap={{
+                    scale: 0.9,
+                  }}
+                  style={{ marginLeft: "10px" }}
+                  className="fas fa-edit"
+                  onClick={() => openModal2()}
+                ></motion.i>
+              </>
             ) : (
               <></>
             )}
