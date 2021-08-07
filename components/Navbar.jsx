@@ -1,10 +1,5 @@
 import { useContext, useState } from "react";
-import {
-  Auth,
-  facebookProvider,
-  githubProvider,
-  googleProvider,
-} from "../firebase";
+import { Auth, googleProvider } from "../firebase";
 import { DataContext } from "../store/GlobalState";
 import CreatePostModal from "../components/CreatePostModal";
 import { motion } from "framer-motion";

@@ -1,7 +1,7 @@
 import firebase from "firebase";
-import "firebase/auth"
-import "firebase/firestore"
-import "firebase/storage"
+import "firebase/auth";
+import "firebase/firestore";
+import "firebase/storage";
 
 var firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -12,22 +12,16 @@ var firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_APP_ID,
 };
 
-
 var firebaseApp;
 
-if (!firebase.apps.length) {
-  firebaseApp = firebase.initializeApp(firebaseConfig);
-} else {
-  firebaseApp = firebase.app();
-}
+if (!firebase.apps.length) firebaseApp = firebase.initializeApp(firebaseConfig);
+else firebaseApp = firebase.app();
 
 const db = firebaseApp.firestore();
 const Auth = firebase.auth();
 const storage = firebase.storage();
-const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp
+const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
 const googleProvider = new firebase.auth.GoogleAuthProvider();
-const facebookProvider = new firebase.auth.FacebookAuthProvider();
-const githubProvider = new firebase.auth.GithubAuthProvider();
 
-export { Auth, googleProvider, facebookProvider, githubProvider, storage,serverTimestamp };
+export { Auth, googleProvider, storage, serverTimestamp };
 export default db;
