@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Modal from "react-modal";
 import { v4 as uuidv4 } from "uuid";
 import db, { storage, serverTimestamp } from "../firebase";

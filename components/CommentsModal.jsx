@@ -1,9 +1,7 @@
 import { motion } from "framer-motion";
-import { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
-import { DataContext } from "../store/GlobalState";
 
-const CommentsModal = ({ comments, setIsOpen, closeModal, modalIsOpen }) => {
+const CommentsModal = ({ comments, closeModal, modalIsOpen }) => {
   const customStyles = {
     content: {
       top: "50%",
@@ -15,11 +13,6 @@ const CommentsModal = ({ comments, setIsOpen, closeModal, modalIsOpen }) => {
       padding: "0px",
     },
   };
-
-  const {
-    state: { auth, posts },
-    dispatch,
-  } = useContext(DataContext);
 
   return (
     <>
