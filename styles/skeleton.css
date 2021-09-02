@@ -84,7 +84,6 @@
 }
 .shimmer-wrapper {
   position: absolute;
-  /* parent must be relative position & overflow hidden */
   top: 0;
   left: 0;
   width: 100%;
